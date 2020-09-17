@@ -1,9 +1,9 @@
 import React from 'react';
 import 'antd/dist/antd.min.css';
-import './App.css';
+import './App.scss';
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom";
-import NewComparison from "./features/Home/NewComparison";
 import Comparison from "./features/Home/Comparision";
+import Details from "./features/Details/Details";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Comparison} />
-          <Route path="/new-comparison" exact component={NewComparison} />
+          <Route path="/details/:comparisonId" exact component={Details} />
         </Switch>
       </Router>
     </div>
