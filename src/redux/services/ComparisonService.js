@@ -37,8 +37,6 @@ const addDetail = d => {
 }
 
 const deleteDetail = d => {
-  console.log('DEleteing: ', d);
-  debugger
   const cmp = getComparison(d.comparisonId);
   if (cmp) {
     cmp.details = cmp.details.filter(newD => newD.id !== d.id);
