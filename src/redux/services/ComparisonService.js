@@ -1,10 +1,10 @@
 const comparisons = [
-  {"id":"v1i", "title":"Shampoo","comparisonUnit":"Volume",
+  {"id":"v1i", "title":"Sample Shampoo","comparisonUnit":"Volume",
     details: [
       {id: 'a4r', name: 'Dove', cost: 90, measure: 450, perUnitPrice: 0.2, buyPref: 1, opacity: 1 },
       {id: 'g53', name: 'H&S', cost: 300, measure: 600, perUnitPrice: 0.5, buyPref: 2, opacity: 0.5},
     ]},
-  {"id":"c95", "title":"Soap","comparisonUnit":"Weight", details: []}
+  // {"id":"c95", "title":"Soap","comparisonUnit":"Weight", details: []}
 ];
 
 const addComparison = c => comparisons.push({ ...c, details: [] });
