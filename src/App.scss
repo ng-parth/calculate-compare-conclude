@@ -5,9 +5,15 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1.5;
   padding: 10px;
   border-radius: 50%;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+.detail-card {
+  //margin: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.08);
 }
