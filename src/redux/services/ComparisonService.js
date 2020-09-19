@@ -1,4 +1,4 @@
-const comparisons = [
+let comparisons = [
   {"id":"v1i", "title":"Sample Shampoo","comparisonUnit":"Volume",
     details: [
       {id: 'a4r', name: 'Dove', cost: 90, measure: 450, perUnitPrice: 0.2, buyPref: 1, opacity: 1 },
@@ -11,6 +11,8 @@ const addComparison = c => comparisons.push({ ...c, details: [] });
 
 const getComparison = id => comparisons.find(c => c.id === id);
 
+const deleteComparison = cid => comparisons = comparisons.map(c => c.id !== cid);
+
 const getAllComparison = () => comparisons.map(c => ({...c}));
 const _recalculate = cmp => {
   const sortedDetails = cmp.details.sort((a,b) => {
@@ -22,7 +24,7 @@ const _recalculate = cmp => {
   const calculatedSortedDetails = sortedDetails.map((sD, index) => ({
     ...sD,
     buyPref: index + 1,
-    opacity: (totalItems - index) / totalItems,
+    opacity: parseFloat((totalItems - index) / totalItems).toFixed(3),
   }))
   cmp.details = calculatedSortedDetails;
 }
@@ -33,7 +35,6 @@ const addDetail = d => {
     cmp.details.push(d);
     _recalculate(cmp);
   }
-
 }
 
 const deleteDetail = d => {
@@ -47,6 +48,7 @@ const deleteDetail = d => {
 export default {
   addComparison,
   getComparison,
+  deleteComparison,
   getAllComparison,
   addDetail,
   deleteDetail,
