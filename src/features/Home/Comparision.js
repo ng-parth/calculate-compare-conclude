@@ -1,7 +1,7 @@
 import React from "react";
 import ComparisonService from "../../redux/services/ComparisonService";
 import {Card, Typography, Modal, Button, Form, Input, Select} from "antd";
-import {PlusOutlined} from '@ant-design/icons';
+import {PlusOutlined, WhatsAppOutlined} from '@ant-design/icons';
 import uid from "uid";
 import {Link} from "react-router-dom";
 
@@ -20,6 +20,8 @@ const Comparison = props => {
     <Typography.Title level={2}>Comparison</Typography.Title>
     {ComparisonService.getAllComparison().map(c => <Link to={`/details/${c.id}`} key={c.id}><Card>{c.title}</Card></Link>)}
     <Button type="ghost" className="fab-button" shape="circle" icon={<PlusOutlined />} size="large" onClick={() => setComparisonModal(true)} />
+    <Link to="/wa.me"><Button type="ghost" className="whatsapp-button" shape="circle" icon={<WhatsAppOutlined />} size="large" /></Link>
+
     <Modal
       title="New Comparison"
       visible={showComparisonModal}

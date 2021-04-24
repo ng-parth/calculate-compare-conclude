@@ -4,6 +4,7 @@ import './App.scss';
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom";
 import Comparison from "./features/Home/Comparision";
 import Details from "./features/Details/Details";
+import WaMe from './features/WaMe/WaMe';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Comparison} />
+          <Route path="/wa.me" exact component={WaMe} />
           <Route path="/details/:comparisonId" exact component={Details} />
         </Switch>
       </Router>
