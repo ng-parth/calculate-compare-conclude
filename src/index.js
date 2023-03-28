@@ -4,6 +4,23 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const swConfig = {
+  onUpdate: registration => {
+    const waitingServiceWorker = registration.waiting;
+    if (waitingServiceWorker) {
+      waitingServiceWorker.addEventListener('statechange', event => {
+        console.log('SW state changed to: ', event.target.state);
+        if (event.target.state === 'activated') {
+          window.location.reload();
+        }
+      });
+      console.log('Posting message to skip waiting. ');
+      waitingServiceWorker.postMessage({ type: 'SKIP_WAITING' });
+    }
+  },
+};
+
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
@@ -14,4 +31,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register(swConfig);
