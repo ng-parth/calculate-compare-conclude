@@ -21,7 +21,9 @@ const Comparison = props => {
     {ComparisonService.getAllComparison().map(c => <Link to={`/details/${c.id}`} key={c.id}><Card>{c.title}</Card></Link>)}
     <Button type="ghost" className="fab-button" shape="circle" icon={<PlusOutlined />} size="large" onClick={() => setComparisonModal(true)} />
     <Link to="/wa.me"><Button type="ghost" className="whatsapp-button" shape="circle" icon={<WhatsAppOutlined />} size="large" /></Link>
-
+    <Link to="/lets-go">
+      <Button type="primary" ghost>Lets Go</Button>
+    </Link>
     <Modal
       title="New Comparison"
       visible={showComparisonModal}
