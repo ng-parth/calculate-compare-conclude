@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Card, notification} from "antd";
-import {EditOutlined, EllipsisOutlined, SettingOutlined, SyncOutlined} from "@ant-design/icons";
+import {EditOutlined, EllipsisOutlined, SyncOutlined} from "@ant-design/icons";
 import {getRouteStatusApi} from "../redux/services/LetsGoService";
 
 const {Meta} = Card;
