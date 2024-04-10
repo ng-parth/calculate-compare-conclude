@@ -21,7 +21,7 @@ const RouteWidget = props => {
             for(let key of keys) {
                 const busData = JSON.parse(respData.stopsEta[route.defaultStopId][key])
                 if (busData.eta > 0) {
-                    busData.etaMsg = `In ${Math.ceil(busData.eta / 60)} mins`;
+                    busData.etaMsg = `In ${Math.floor(busData.eta / 60)} mins`;
                     buses.push(busData);
                 }
             }
@@ -39,6 +39,7 @@ const RouteWidget = props => {
             <EditOutlined key="edit" />,
             <EllipsisOutlined key="ellipsis" />,
         ]}
+        style={{width: '100%'}}
     >
         <Meta
             // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

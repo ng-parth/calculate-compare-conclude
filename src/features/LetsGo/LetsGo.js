@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {getRoutesApi, getRouteTagsApi, postRouteApi} from "../../redux/services/LetsGoService";
-import {Col, Form, Input, Modal, notification, Radio, Row, Select, Spin, Switch, Typography} from "antd";
+import {Button, Card, Col, Form, Input, Modal, notification, Radio, Row, Select, Spin, Switch, Typography} from "antd";
 import RouteWidget from "../../components/RouteWidget";
-import {PlusSquareTwoTone} from "@ant-design/icons";
+import {PlusOutlined } from "@ant-design/icons";
 
 const LetsGo = props => {
     const [routes, setRoutes] = useState(null);
@@ -11,9 +11,12 @@ const LetsGo = props => {
     const [tagFilter, setTagFilter] = useState(null);
     const [showUpsertModal, setUpsertModal] = useState(false);
     const [form] = Form.useForm();
+    const colSpan = {xs: 12, sm: 12, md: 8}
+    const masterRouteRef = useRef(null);
     const getRoutes = () => {
         getRoutesApi().then(({data}) => {
             setRoutes(data.data);
+            masterRouteRef.current = data.data;
             setLoading(false);
         }).catch(err => {
             console.log('Err @getRoutesApi: ', err)
@@ -44,10 +47,19 @@ const LetsGo = props => {
             setLoading(false);
         })
     }
+    useEffect(() => {
+        if (tagFilter) {
+            if (tagFilter === 'ALL') {
+                setRoutes(masterRouteRef.current);
+            } else {
+                setRoutes(masterRouteRef.current.filter(route => route.tags.indexOf(tagFilter) > -1))
+            }
+        }
+    }, [tagFilter]);
     return <div>
         <Typography.Title level="3">Routes</Typography.Title>
         <Spin spinning={loading}>
-            {routeTags?.length && <Row>
+            {routeTags?.length > 0 && <Row>
                 <Col span={24}>
                     <Radio.Group value={tagFilter} onChange={e => setTagFilter(e.target.value)}>
                         {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}
@@ -56,14 +68,18 @@ const LetsGo = props => {
                 </Col>
             </Row>}
             <br/>
-            <Row>
-                {routes?.length && routes?.map((route) => <Col span={8} key={route._id}>
+            <Row gutter={[16, 16]}>
+                {routes?.length > 0 && routes?.map((route) => <Col {...colSpan} key={route._id}>
                     <RouteWidget route={route} key={route._id}/>
                 </Col>)}
-                {!routes?.length && <Col span={8}><div>No Routes Found</div></Col>}
-                <Col span={8}><PlusSquareTwoTone style={{fontSize: 30}} onClick={() => {
-                    setUpsertModal(true);
-                }}/></Col>
+                {!routes?.length && <Col {...colSpan}><Card>No Routes Found</Card></Col>}
+                <Col {...colSpan}>
+                    <Card actions={[<Button type="primary" ghost shape="round" icon={<PlusOutlined />} size={'small'} onClick={() => {
+                        setUpsertModal(true);
+                    }}>Add</Button>]}>
+                        Cant find your bus? Add one.
+                    </Card>
+                </Col>
             </Row>
         </Spin>
         <Modal
