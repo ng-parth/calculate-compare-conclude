@@ -100,10 +100,13 @@ const LetsGo = props => {
                 <Form.Item name="stopName" label="Stop Name" rules={[{required: true}]}>
                     <Input placeholder="eg: Century Bazaar"/>
                 </Form.Item>
+                <Form.Item name="apiUrl" label="Update API Url" rules={[{required: true}]}>
+                    <Input />
+                </Form.Item>
                 <Form.Item name="defaultStopId" label="Default Stop Id" rules={[{required: true}]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="apiUrl" label="Update API Url" rules={[{required: true}]}>
+                <Form.Item name="webUrl" label="Web Url">
                     <Input />
                 </Form.Item>
                 <Form.Item name="tags" label="Route Tags">
