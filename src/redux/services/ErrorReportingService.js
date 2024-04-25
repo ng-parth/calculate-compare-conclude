@@ -17,7 +17,17 @@ const reportError = err => {
     }
     // console.log(err);
     const errData = {...err, src: process.env.REACT_APP_UI_SRC || ''};
-    errRequest.post(serviceUrl, errData);
+    return errRequest.post(serviceUrl, errData);
 };
 
-export default { reportError, initializeErrorReportingService };
+const getErrorObj = ({name = 'REPORT_ERROR', api = null, reportData}) => {
+    let apiInfo = {};
+    try {
+        apiInfo = JSON.stringify(reportData);
+    } catch (e) {
+        console.error(`Failed to stringify reportData: `, e);
+    }
+    return {name, api, apiInfo};
+}
+
+export default { reportError, initializeErrorReportingService, getErrorObj };

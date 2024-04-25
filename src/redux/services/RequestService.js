@@ -14,7 +14,7 @@ request.interceptors.response.use(function (response) {
     const reqTs = response?.config?.headers?.reqTs;
     const timeElapsed = reqTs && (new Date().getTime() - reqTs);
     // console.log('===== timeElapsed in ms:', timeElapsed);
-    if (timeElapsed > 5000) {
+    if (timeElapsed > 3000) {
         const errObj = {
             name: 'COLD_START',
             api: `${response?.config?.method}: ${response?.config?.url}`,
