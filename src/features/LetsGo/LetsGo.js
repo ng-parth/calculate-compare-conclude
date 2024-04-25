@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {getRoutesApi, getRouteTagsApi, postRouteApi} from "../../redux/services/LetsGoService";
+import {getRoutesApi, getRouteTagsApi, postRouteApi, postRouteTagApi} from "../../redux/services/LetsGoService";
 import {Button, Card, Col, Form, Input, Modal, notification, Radio, Row, Select, Spin, Switch, Typography} from "antd";
 import RouteWidget from "../../components/RouteWidget";
 import {PlusOutlined } from "@ant-design/icons";
@@ -48,7 +48,7 @@ const LetsGo = props => {
         })
     }
     useEffect(() => {
-        if (tagFilter) {
+        if (tagFilter && tagFilter !== 'ADD') {
             if (tagFilter === 'ALL') {
                 setRoutes(masterRouteRef.current);
             } else {
@@ -56,15 +56,42 @@ const LetsGo = props => {
             }
         }
     }, [tagFilter]);
+    const postRouteTag = tagName => {
+        if (!tagName) return notification.error({ message: 'Please enter tag name' });
+        setLoading(true);
+        postRouteTagApi({tagName})
+            .then(({data}) => {
+                const routeTag = data.data;
+                setRouteTags([...routeTags, routeTag]);
+                setTagFilter('ALL');
+                setLoading(false)
+            })
+            .catch(err => {
+                console.log('Err @postRouteTagApi: ', err)
+                notification.error({ message: 'Fail to save route tag.' });
+                setLoading(true);
+            });
+    }
     return <div>
-        <Typography.Title level="3">Routes</Typography.Title>
+        <Typography.Title level={3}>Routes</Typography.Title>
         <Spin spinning={loading}>
             {routeTags?.length > 0 && <Row>
                 <Col span={24}>
                     <Radio.Group value={tagFilter} onChange={e => setTagFilter(e.target.value)}>
-                        {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}
                         <Radio.Button value="ALL" >ALL</Radio.Button>
+                        {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}
+                        <Radio.Button value="ADD"><PlusOutlined /> Add</Radio.Button>
                     </Radio.Group>
+                </Col>
+            </Row>}
+            {tagFilter === 'ADD' && <Row>
+                <Col span={24}>
+                    <Input.Group compact>
+                        <Input.Search
+                            allowClear
+                            enterButton="Save"
+                            onSearch={postRouteTag}/>
+                    </Input.Group>
                 </Col>
             </Row>}
             <br/>
