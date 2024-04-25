@@ -14,7 +14,7 @@ const LetsGo = props => {
     const [routes, setRoutes] = useState(null);
     const [loading, setLoading] = useState(true);
     const [routeTags, setRouteTags] = useState(null);
-    const [tagFilter, setTagFilter] = useState(null);
+    const [tagFilter, setTagFilter] = useState('ALL');
     const [showUpsertModal, setUpsertModal] = useState(false);
     const [form] = Form.useForm();
     const colSpan = {xs: 12, sm: 12, md: 8}
@@ -84,7 +84,11 @@ const LetsGo = props => {
         <Spin spinning={loading}>
             {routeTags?.length > 0 && <Row>
                 <Col span={24}>
-                    <Radio.Group value={tagFilter} onChange={e => setTagFilter(e.target.value)}>
+                    <Radio.Group value={tagFilter} onChange={e => {
+                        const tag = e.target.value;
+                        if (tag === 'ALL') setSyncAllTime(null);
+                        setTagFilter(tag);
+                    }}>
                         <Radio.Button value="ALL">ALL</Radio.Button>
                         {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}
                         <Radio.Button value="ADD"><PlusOutlined/> Add</Radio.Button>
@@ -103,7 +107,7 @@ const LetsGo = props => {
             </Row></>}
             <br/>
             <Row gutter={[16, 16]}>
-                <Col span={24}><Button type="primary" icon={<SwapOutlined />} onClick={() => setSyncAllTime(getCurrentTime())}>Sync All Status</Button></Col>
+                <Col span={24}><Button type="primary" icon={<SwapOutlined />} disabled={['ADD','ALL'].indexOf(tagFilter) > -1} onClick={() => setSyncAllTime(getCurrentTime())}>Sync All Status</Button></Col>
                 {routes?.length > 0 && routes?.map((route) => <Col {...colSpan} key={route._id}>
                     <RouteWidget route={route} key={route._id} lastUpdateTs={syncAllTime}/>
                 </Col>)}
