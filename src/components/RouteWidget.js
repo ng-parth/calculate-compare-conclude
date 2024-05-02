@@ -20,7 +20,7 @@ const RouteWidget = props => {
     useEffect(() => {
         if (!lastUpdated) return
         setLoading(true)
-        getRouteStatusApi(route._id).then(({data}) => {
+        getRouteStatusApi(route.id).then(({data}) => {
             // console.log(data.data);
             const respData = data.data;
             busRespRef.current = respData;
@@ -86,7 +86,7 @@ const RouteWidget = props => {
         {buses?.map((bus, index) =>  <div key={bus.vNo || index}>
             {bus.vNo} : {bus.etaMsg}
         </div>)}
-        {lastUpdated && !buses.length && <div><Typography.Text type="warning">No running bus found</Typography.Text></div>}
+        {lastUpdated && !loading && !buses.length && <div><Typography.Text type="warning">No running bus found</Typography.Text></div>}
         {lastUpdated && (<Typography.Text type="secondary">@{lastUpdated}</Typography.Text>)}
     </Card>
         <Modal

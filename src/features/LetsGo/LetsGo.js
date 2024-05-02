@@ -108,8 +108,8 @@ const LetsGo = props => {
             <br/>
             <Row gutter={[16, 16]}>
                 <Col span={24}><Button type="primary" icon={<SwapOutlined />} disabled={['ADD','ALL'].indexOf(tagFilter) > -1} onClick={() => setSyncAllTime(getCurrentTime())}>Sync All Status</Button></Col>
-                {routes?.length > 0 && routes?.map((route) => <Col {...colSpan} key={route._id}>
-                    <RouteWidget route={route} key={route._id} lastUpdateTs={syncAllTime}/>
+                {routes?.length > 0 && routes?.map((route) => <Col {...colSpan} key={route.id}>
+                    <RouteWidget route={route} key={route.id} lastUpdateTs={syncAllTime}/>
                 </Col>)}
                 {!routes?.length && <Col {...colSpan}><Card>No Routes Found</Card></Col>}
                 <Col {...colSpan}>
