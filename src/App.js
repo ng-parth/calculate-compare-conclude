@@ -7,6 +7,7 @@ import Details from "./features/Details/Details";
 import WaMe from './features/WaMe/WaMe';
 import logo from './assets/logos/compare192.png'
 import LetsGo from "./features/LetsGo/LetsGo";
+import LetsUpi from "./features/LetsUpi/LetsUpi";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/wa.me" exact component={WaMe} />
           <Route path="/details/:comparisonId" exact component={Details} />
           <Route path="/lets-go" exact component={LetsGo} />
+          <Route path="/lets-upi" exact component={LetsUpi} />
         </Switch>
       </Router>
     </div>

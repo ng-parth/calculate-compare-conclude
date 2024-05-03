@@ -24,6 +24,11 @@ const Comparison = props => {
     <Link to="/lets-go">
       <Button type="primary" ghost>Lets Go</Button>
     </Link>
+    <br/>
+    <br/>
+    <Link to="/lets-upi">
+      <Button type="danger" ghost>Lets Pay</Button>
+    </Link>
     <Modal
       title="New Comparison"
       visible={showComparisonModal}

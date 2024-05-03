@@ -1,0 +1,11 @@
+.upi-form-container {
+  text-align: center;
+  .upi-form {
+    &--vpa {
+      width: 70%;
+    }
+    &--amount {
+      width: 40%;
+    }
+  }
+}
