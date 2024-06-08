@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, Form, Input, Modal, notification, Typography} from "antd";
-import {EllipsisOutlined, ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
+import {EllipsisOutlined, ExclamationCircleOutlined, LinkOutlined, SyncOutlined} from "@ant-design/icons";
 import {getCurrentTime, getRouteStatusApi} from "../redux/services/LetsGoService";
 import ErrorReportingService from "../redux/services/ErrorReportingService";
 import moment from "moment/moment";
+import {Link} from "react-router-dom";
 
 const {Meta} = Card;
 
@@ -81,7 +82,7 @@ const RouteWidget = props => {
         actions={[
             <SyncOutlined spin={loading} onClick={() => setLastUpdated(getCurrentTime())} />,
             <ExclamationCircleOutlined key="report" style={{color: enableReportError ? '#f50' : '#e1e1e1'}} onClick={reportDiscrepancy}/>,
-            <EllipsisOutlined key="ellipsis" />,
+            route.webUrl ? <a href={route.webUrl} rel="noopener noreferrer" target={"_blank"}><LinkOutlined style={{color: '#1677ff'}}/></a> : <EllipsisOutlined key="ellipsis" />,
         ]}
         className="bus-route-widget"
         style={{width: '100%'}}
@@ -92,7 +93,7 @@ const RouteWidget = props => {
         />
         {buses?.map((bus, index) =>  <div key={bus.vNo + '-' + index} className="bus-route-widget--bus">
             <div className="bus-route-widget--bus-title">{bus.vNo} : {bus.etaMsg}</div>
-            <Typography.Text disabled>{bus?.timeDiff}</Typography.Text>
+            <Typography.Text disabled>{bus?.timeDiff} {bus.isHalted ? ': Halted' : '' }</Typography.Text>
         </div>)}
         {lastUpdated && !loading && !buses.length && <div><Typography.Text type="warning">No running bus found</Typography.Text></div>}
         {lastUpdated && (<Typography.Text type="secondary">@{lastUpdated}</Typography.Text>)}
