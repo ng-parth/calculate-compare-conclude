@@ -9,6 +9,7 @@ import {
 import {Button, Card, Col, Form, Input, Modal, notification, Radio, Row, Select, Spin, Switch, Typography} from "antd";
 import RouteWidget from "../../components/RouteWidget";
 import {PlusOutlined, SwapOutlined} from "@ant-design/icons";
+import './lets-go.scss';
 
 const LetsGo = props => {
     const [routes, setRoutes] = useState(null);

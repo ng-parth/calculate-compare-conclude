@@ -3,6 +3,7 @@ import {Card, Form, Input, Modal, notification, Typography} from "antd";
 import {EllipsisOutlined, ExclamationCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import {getCurrentTime, getRouteStatusApi} from "../redux/services/LetsGoService";
 import ErrorReportingService from "../redux/services/ErrorReportingService";
+import moment from "moment/moment";
 
 const {Meta} = Card;
 
@@ -23,16 +24,21 @@ const RouteWidget = props => {
         getRouteStatusApi(route.id).then(({data}) => {
             // console.log(data.data);
             const respData = data.data;
-            busRespRef.current = respData;
-            const buses = [];
+            let buses = [];
             const keys = Object.keys(respData.stopsEta[route.defaultStopId]);
+            const newStopsEta = {};
             for(let key of keys) {
-                const busData = JSON.parse(respData.stopsEta[route.defaultStopId][key])
+                const busData = JSON.parse(respData.stopsEta[route.defaultStopId][key]);
+                busData.dts = moment(busData.tS).format();
+                busData.timeDiff = moment(busData.tS).fromNow();
+                newStopsEta[key] = busData;
                 if (busData.eta > 0) {
                     busData.etaMsg = `In ${Math.floor(busData.eta / 60)} mins`;
                     buses.push(busData);
                 }
             }
+            buses = buses.sort((a, b) => a.eta - b.eta);
+            busRespRef.current = {...respData, stopsEta: newStopsEta};
             setBuses(buses);
             setLoading(false);
         }).catch(err => {
@@ -77,14 +83,16 @@ const RouteWidget = props => {
             <ExclamationCircleOutlined key="report" style={{color: enableReportError ? '#f50' : '#e1e1e1'}} onClick={reportDiscrepancy}/>,
             <EllipsisOutlined key="ellipsis" />,
         ]}
+        className="bus-route-widget"
         style={{width: '100%'}}
     >
         <Meta
             title={`${route.busNo} @ ${route.stopName}`}
             description={route.routeName}
         />
-        {buses?.map((bus, index) =>  <div key={bus.vNo || index}>
-            {bus.vNo} : {bus.etaMsg}
+        {buses?.map((bus, index) =>  <div key={bus.vNo + '-' + index} className="bus-route-widget--bus">
+            <div className="bus-route-widget--bus-title">{bus.vNo} : {bus.etaMsg}</div>
+            <Typography.Text disabled>{bus?.timeDiff}</Typography.Text>
         </div>)}
         {lastUpdated && !loading && !buses.length && <div><Typography.Text type="warning">No running bus found</Typography.Text></div>}
         {lastUpdated && (<Typography.Text type="secondary">@{lastUpdated}</Typography.Text>)}
