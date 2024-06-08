@@ -28,15 +28,16 @@ const RouteWidget = props => {
             let buses = [];
             const keys = Object.keys(respData.stopsEta[route.defaultStopId]);
             const newStopsEta = {};
+            newStopsEta[route.defaultStopId] = {};
             for(let key of keys) {
                 const busData = JSON.parse(respData.stopsEta[route.defaultStopId][key]);
                 busData.dts = moment(busData.tS).format();
                 busData.timeDiff = moment(busData.tS).fromNow();
-                newStopsEta[key] = busData;
                 if (busData.eta > 0) {
                     busData.etaMsg = `In ${Math.floor(busData.eta / 60)} mins`;
                     buses.push(busData);
                 }
+                newStopsEta[route.defaultStopId][key] = busData;
             }
             buses = buses.sort((a, b) => a.eta - b.eta);
             busRespRef.current = {...respData, stopsEta: newStopsEta};
