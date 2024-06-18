@@ -1,7 +1,7 @@
 .app {
-  padding: 20px;
+  padding: 20px 20px 64px;
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   .footer {
     position: absolute;
     bottom: 0;
