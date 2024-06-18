@@ -23,8 +23,15 @@ const LetsGo = props => {
     const [syncAllTime, setSyncAllTime] = useState(null);
     const getRoutes = () => {
         getRoutesApi().then(({data}) => {
-            setRoutes(data.data);
-            masterRouteRef.current = data.data;
+            const sortedData = data.data.map(r => ({ ...r, title: `${r.busNo} @ ${r.stopName}`})).sort((a, b) => {
+                const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) return -1;
+                if (nameA > nameB) return 1;
+                return 0;
+            })
+            setRoutes(sortedData);
+            masterRouteRef.current = sortedData;
             setLoading(false);
         }).catch(err => {
             console.log('Err @getRoutesApi: ', err)

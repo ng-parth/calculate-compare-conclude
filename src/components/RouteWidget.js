@@ -89,7 +89,7 @@ const RouteWidget = props => {
         style={{width: '100%'}}
     >
         <Meta
-            title={`${route.busNo} @ ${route.stopName}`}
+            title={route.title}
             description={route.routeName}
         />
         {buses?.map((bus, index) =>  <div key={bus.vNo + '-' + index} className="bus-route-widget--bus">
