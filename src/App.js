@@ -8,6 +8,7 @@ import WaMe from './features/WaMe/WaMe';
 import logo from './assets/logos/compare192.png'
 import LetsGo from "./features/LetsGo/LetsGo";
 import LetsUpi from "./features/LetsUpi/LetsUpi";
+import {HeartTwoTone} from "@ant-design/icons";
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
           <Route path="/lets-upi" exact component={LetsUpi} />
         </Switch>
       </Router>
+        <div className="footer">
+            Made with <HeartTwoTone twoToneColor="#ce2e35" /> for personal use by <a href="http://ng-parth.xyz" target="_blank">ng-parth</a>.
+            <br/>All rights belong to respective service providers (if used any services).
+        </div>
     </div>
   );
 }

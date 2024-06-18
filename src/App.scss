@@ -1,5 +1,14 @@
 .app {
-  margin: 20px;
+  padding: 20px;
+  position: relative;
+  min-height: 100vh;
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 20px - 40px);
+    text-align: center;
+    padding: 10px;
+  }
 }
 .fab-button {
   position: fixed;
