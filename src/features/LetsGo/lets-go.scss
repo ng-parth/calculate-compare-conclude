@@ -5,8 +5,12 @@
   &--bus {
     margin: 5px 0;
     padding: 4px;
-    background: #e6f4ff;
+    background: #d9f7be;
     border-radius: 10px;
+    &.outdated {
+      opacity: 0.5;
+        background: #d9d9d9;
+    }
   }
   &--bus-title {
     font-weight: bold;

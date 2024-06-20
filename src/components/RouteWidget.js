@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, Form, Input, Modal, notification, Typography} from "antd";
 import {EllipsisOutlined, ExclamationCircleOutlined, LinkOutlined, SyncOutlined} from "@ant-design/icons";
-import {getCurrentTime, getRouteStatusApi} from "../redux/services/LetsGoService";
+import {getCurrentTime, getRouteStatusApi, validateAndSortBuses} from "../redux/services/LetsGoService";
 import ErrorReportingService from "../redux/services/ErrorReportingService";
 import moment from "moment/moment";
 import {Link} from "react-router-dom";
@@ -39,7 +39,7 @@ const RouteWidget = props => {
                 }
                 newStopsEta[route.defaultStopId][key] = busData;
             }
-            buses = buses.sort((a, b) => a.eta - b.eta);
+            buses = validateAndSortBuses(buses);
             busRespRef.current = {...respData, stopsEta: newStopsEta};
             setBuses(buses);
             setLoading(false);
@@ -92,7 +92,7 @@ const RouteWidget = props => {
             title={route.title}
             description={route.routeName}
         />
-        {buses?.map((bus, index) =>  <div key={bus.vNo + '-' + index} className="bus-route-widget--bus">
+        {buses?.map((bus, index) =>  <div key={bus.vNo + '-' + index} className={`bus-route-widget--bus ${!bus.isValidEta ? 'outdated' : ''}`}>
             <div className="bus-route-widget--bus-title">{bus.vNo} : {bus.etaMsg}</div>
             <Typography.Text disabled>{bus?.timeDiff} {bus.isHalted ? ': Halted' : '' }</Typography.Text>
         </div>)}
