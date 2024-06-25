@@ -45,6 +45,6 @@ export const validateAndSortBuses = buses => {
             validEta.push({ ...bus, isValidEta, estimatedEta });
         else invalidEta.push({ ...bus, isValidEta, estimatedEta });
     });
-    return [ ...validEta.sort((a, b) => b.estimatedEta - a.estimatedEta), ...invalidEta]
+    return [ ...validEta.sort((a, b) => a.estimatedEta - b.estimatedEta), ...invalidEta]
 }
 
