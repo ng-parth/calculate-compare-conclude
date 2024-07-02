@@ -31,6 +31,7 @@ export const getRouteStatusApi = id => req.get(`${BASE_URL}/api/letsgo/status/${
 //         }
 //     }});
 export const postRouteApi = route => req.post(`${BASE_URL}/api/letsgo/route`, route);
+export const putRouteApi = route => req.put(`${BASE_URL}/api/letsgo/route`, route);
 export const postRouteTagApi = routeTag => req.post(`${BASE_URL}/api/letsgo/route-tag`, routeTag);
 
 export const getCurrentTime = () => moment().format('h:mm:ss a');

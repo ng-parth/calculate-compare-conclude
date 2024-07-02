@@ -4,7 +4,8 @@ import {
     getRoutesApi,
     getRouteTagsApi,
     postRouteApi,
-    postRouteTagApi
+    postRouteTagApi,
+    putRouteApi,
 } from "../../redux/services/LetsGoService";
 import {Button, Card, Col, Form, Input, Modal, notification, Radio, Row, Select, Spin, Switch, Typography} from "antd";
 import RouteWidget from "../../components/RouteWidget";
@@ -18,6 +19,7 @@ const LetsGo = props => {
     const [tagFilter, setTagFilter] = useState('ALL');
     const [showUpsertModal, setUpsertModal] = useState(false);
     const [form] = Form.useForm();
+    const [isNew, setIsNew] = useState(false);
     const colSpan = {xs: 12, sm: 12, md: 8}
     const masterRouteRef = useRef(null);
     const [syncAllTime, setSyncAllTime] = useState(null);
@@ -53,11 +55,13 @@ const LetsGo = props => {
     }, []);
     const submitForm = formValues => {
         setLoading(true);
-        postRouteApi(formValues).then(({data}) => {
+        let api = postRouteApi;
+        if (formValues.id) api = putRouteApi;
+        api(formValues).then(({data}) => {
             getRoutes();
             setUpsertModal(false);
         }).catch(err => {
-            console.log('Err @postRouteApi: ', err);
+            console.log('Err @submitForm: ', err);
             notification.error({ message: 'Fail to add new route :\'('});
             setLoading(false);
         })
@@ -86,6 +90,12 @@ const LetsGo = props => {
                 notification.error({ message: 'Fail to save route tag.' });
                 setLoading(true);
             });
+    }
+    const onEditCb = route => {
+        form.resetFields();
+        form.setFieldsValue(route);
+        setIsNew(false);
+        setUpsertModal(true);
     }
     return <div>
         <Typography.Title level={3}>Routes</Typography.Title>
@@ -117,12 +127,14 @@ const LetsGo = props => {
             <Row gutter={[16, 16]}>
                 <Col span={24}><Button type="primary" icon={<SwapOutlined />} disabled={['ADD','ALL'].indexOf(tagFilter) > -1} onClick={() => setSyncAllTime(getCurrentTime())}>Sync All Status</Button></Col>
                 {routes?.length > 0 && routes?.map((route) => <Col {...colSpan} key={route.id}>
-                    <RouteWidget route={route} key={route.id} lastUpdateTs={syncAllTime}/>
+                    <RouteWidget route={route} key={route.id} lastUpdateTs={syncAllTime} onEdit={onEditCb}/>
                 </Col>)}
                 {!routes?.length && <Col {...colSpan}><Card>No Routes Found</Card></Col>}
                 <Col {...colSpan}>
                     <Card actions={[<Button type="primary" ghost shape="round" icon={<PlusOutlined/>} size={'small'}
                                             onClick={() => {
+                                                form.resetFields();
+                                                setIsNew(true);
                                                 setUpsertModal(true);
                                             }}>Add</Button>]}>
                         Cant find your bus? Add one.
@@ -131,15 +143,18 @@ const LetsGo = props => {
             </Row>
         </Spin>
         <Modal
-            title="New Route"
+            title={isNew ? 'New Route' : 'Edit Route'}
             open={showUpsertModal}
             onOk={form.submit}
             onCancel={() => setUpsertModal(false)}
-            okText="Add New Route"
+            okText={isNew ? 'Add New Route' : 'Update Route'}
             confirmLoading={loading}
             destroyOnClose
         >
             <Form onFinish={submitForm} layout="vertical" form={form}>
+                <Form.Item noStyle name="id">
+                    <Input type="hidden" />
+                </Form.Item>
                 <Form.Item name="busNo" label="Bus No" rules={[{required: true}]}>
                     <Input />
                 </Form.Item>
@@ -149,10 +164,10 @@ const LetsGo = props => {
                 <Form.Item name="stopName" label="Stop Name" rules={[{required: true}]}>
                     <Input placeholder="eg: Century Bazaar"/>
                 </Form.Item>
-                <Form.Item name="apiUrl" label="Update API Url" rules={[{required: true}]}>
+                <Form.Item name="apiUrl" label="Update API Url">
                     <Input />
                 </Form.Item>
-                <Form.Item name="defaultStopId" label="Default Stop Id" rules={[{required: true}]}>
+                <Form.Item name="defaultStopId" label="Default Stop Id">
                     <Input />
                 </Form.Item>
                 <Form.Item name="webUrl" label="Web Url">
@@ -167,7 +182,7 @@ const LetsGo = props => {
                     <Switch defaultChecked checkedChildren="YES" unCheckedChildren="NO" />;
                 </Form.Item>
                 <Form.Item name="status" label="Status?">
-                    <Switch defaultChecked checkedChildren="ACTIVE" unCheckedChildren="INACTIVE" />;
+                    <Switch defaultChecked checkedChildren="ACTIVE" unCheckedChildren="INACTIVE" />
                 </Form.Item>
             </Form>
         </Modal>

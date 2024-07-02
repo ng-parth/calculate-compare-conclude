@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, Form, Input, Modal, notification, Typography} from "antd";
-import {EllipsisOutlined, ExclamationCircleOutlined, LinkOutlined, SyncOutlined} from "@ant-design/icons";
+import {EditOutlined, ExclamationCircleOutlined, LinkOutlined, SyncOutlined} from "@ant-design/icons";
 import {getCurrentTime, getRouteStatusApi, validateAndSortBuses} from "../redux/services/LetsGoService";
 import ErrorReportingService from "../redux/services/ErrorReportingService";
 import moment from "moment/moment";
@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 const {Meta} = Card;
 
 const RouteWidget = props => {
-    const {route, lastUpdateTs = null} = props;
+    const {route, lastUpdateTs = null, onEdit} = props;
     const [loading, setLoading] = useState(false);
     const [lastUpdated, setLastUpdated] = useState(null);
     const [buses, setBuses] = useState([]);
@@ -77,14 +77,17 @@ const RouteWidget = props => {
             notification.error({ message: 'Fail to report discrepancy'});
         })
     }
+    const actions = [];
+    if (route.defaultStopId) {
+        actions.push(<SyncOutlined spin={loading} onClick={() => setLastUpdated(getCurrentTime())} style={{color: '#1677ff'}}/>);
+        actions.push(<ExclamationCircleOutlined key="report" style={{color: enableReportError ? '#f50' : '#e1e1e1'}} onClick={reportDiscrepancy}/>);
+    }
+    if (route.webUrl) actions.push(<a href={route.webUrl} rel="noopener noreferrer" target={"_blank"}><LinkOutlined style={{color: '#1677ff'}}/></a>);
+    if (!route.defaultStopId || !route.webUrl) actions.push(<EditOutlined style={{color: '#1677ff'}} onClick={() => onEdit(route)}/>)
 
     return <>
         <Card
-        actions={[
-            <SyncOutlined spin={loading} onClick={() => setLastUpdated(getCurrentTime())} />,
-            <ExclamationCircleOutlined key="report" style={{color: enableReportError ? '#f50' : '#e1e1e1'}} onClick={reportDiscrepancy}/>,
-            route.webUrl ? <a href={route.webUrl} rel="noopener noreferrer" target={"_blank"}><LinkOutlined style={{color: '#1677ff'}}/></a> : <EllipsisOutlined key="ellipsis" />,
-        ]}
+        actions={actions}
         className="bus-route-widget"
         style={{width: '100%'}}
     >
