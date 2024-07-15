@@ -73,6 +73,8 @@ const LetsGo = props => {
             } else {
                 setRoutes(masterRouteRef.current.filter(route => route.tags.indexOf(tagFilter) > -1))
             }
+        } else if (tagFilter === null) {
+            setRoutes(masterRouteRef.current.filter(route => !route.tags?.length))
         }
     }, [tagFilter]);
     const postRouteTag = tagName => {
@@ -109,6 +111,7 @@ const LetsGo = props => {
                     }}>
                         <Radio.Button value="ALL">ALL</Radio.Button>
                         {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}
+                        <Radio.Button value={null}>Empty Tags</Radio.Button>
                         <Radio.Button value="ADD"><PlusOutlined/> Add</Radio.Button>
                     </Radio.Group>
                 </Col>
@@ -135,6 +138,7 @@ const LetsGo = props => {
                                             onClick={() => {
                                                 form.resetFields();
                                                 setIsNew(true);
+                                                if (tagFilter) form.setFieldsValue({tags: tagFilter});
                                                 setUpsertModal(true);
                                             }}>Add</Button>]}>
                         Cant find your bus? Add one.
@@ -158,7 +162,7 @@ const LetsGo = props => {
                 <Form.Item name="busNo" label="Bus No" rules={[{required: true}]}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="routeName" label="Route Name" rules={[{required: true}]}>
+                <Form.Item name="routeName" label="Route Name">
                     <Input placeholder="eg: Worli to Airoli"/>
                 </Form.Item>
                 <Form.Item name="stopName" label="Stop Name" rules={[{required: true}]}>
