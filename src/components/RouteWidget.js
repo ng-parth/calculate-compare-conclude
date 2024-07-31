@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 const {Meta} = Card;
 
 const RouteWidget = props => {
-    const {route, lastUpdateTs = null, onEdit} = props;
+    const { route, lastUpdateTs = null } = props;
     const [loading, setLoading] = useState(false);
     const [lastUpdated, setLastUpdated] = useState(null);
     const [buses, setBuses] = useState([]);
@@ -83,7 +83,7 @@ const RouteWidget = props => {
         actions.push(<ExclamationCircleOutlined key="report" style={{color: enableReportError ? '#f50' : '#e1e1e1'}} onClick={reportDiscrepancy}/>);
     }
     if (route.webUrl) actions.push(<a href={route.webUrl} rel="noopener noreferrer" target={"_blank"}><LinkOutlined style={{color: '#1677ff'}}/></a>);
-    if (!route.defaultStopId || !route.webUrl) actions.push(<EditOutlined style={{color: '#1677ff'}} onClick={() => onEdit(route)}/>)
+    if (!route.defaultStopId || !route.webUrl) actions.push(<Link to={`/lets-go/rinfo/${route.id}`}><EditOutlined style={{color: '#1677ff'}}/></Link>)
 
     return <>
         <Card

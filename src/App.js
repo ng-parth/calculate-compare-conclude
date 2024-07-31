@@ -9,6 +9,7 @@ import logo from './assets/logos/compare192.png'
 import LetsGo from "./features/LetsGo/LetsGo";
 import LetsUpi from "./features/LetsUpi/LetsUpi";
 import {HeartTwoTone} from "@ant-design/icons";
+import RouteInfo from "./features/LetsGo/RouteInfo";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/wa.me" exact component={WaMe} />
           <Route path="/details/:comparisonId" exact component={Details} />
           <Route path="/lets-go" exact component={LetsGo} />
+          <Route path="/lets-go/rinfo/:routeId/:tag?" exact component={RouteInfo} />
           <Route path="/lets-upi" exact component={LetsUpi} />
         </Switch>
       </Router>
