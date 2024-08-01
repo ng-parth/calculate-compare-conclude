@@ -68,6 +68,9 @@ const LetsGo = props => {
         // <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
         const faviconEl = document.querySelector('link[rel="icon"]');
         faviconEl.href = `${process.env.PUBLIC_URL}/favicon.letsgo.ico`;
+
+        const title = document.querySelector('title');
+        title.innerText = 'Lets Go!';
     }
     useEffect(() => {
         updateManifestFile()

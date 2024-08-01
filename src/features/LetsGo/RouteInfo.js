@@ -141,7 +141,7 @@ const RouteInfo = props => {
                             </Select>
                         </Col>
                         <Col span={6}>
-                            <Button type="primary" disabled={!selectedRoute} onClick={getSelectedRouteInfo}>Get Stops</Button>
+                            <Button type="primary" disabled={!selectedRoute} loading={loading} onClick={getSelectedRouteInfo}>Get Stops</Button>
                         </Col>
                         {routeStops?.stops?.length > 0 && <>
                                 <Col span={18}>
