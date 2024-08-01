@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/",
-  "scope": "/lets-go/",
+  "scope": "/",
+  "start_url": "/lets-go/",
   "display": "standalone",
   "theme_color": "#FF7700",
   "background_color": "#CC1413"
