@@ -14,7 +14,6 @@ import RouteInfo from "./features/LetsGo/RouteInfo";
 function App() {
   return (
     <div className="app">
-      <img src={logo} className="logo--main" alt="Logo" />
       <Router>
         <Switch>
           <Route path="/" exact component={Comparison} />

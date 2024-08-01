@@ -22,6 +22,8 @@ import './lets-go.scss';
 import * as swLetsGo from "../../sw/swLetsGo";
 import swConfig from "../../sw/swConfig";
 import * as serviceWorker from "../../serviceWorker";
+import logo1 from "../../assets/logos/letsgo/letsgo-144.png";
+import logo2 from "../../assets/logos/letsgo/LetsGoo.png";
 
 
 const LetsGo = props => {
@@ -108,6 +110,7 @@ const LetsGo = props => {
             });
     }
     return <div>
+        <img src={logo2} className="logo--letsgo" alt="Logo"/>
         <Typography.Title level={3}>Routes</Typography.Title>
         <Spin spinning={loading}>
             {routeTags?.length > 0 && <Row>
