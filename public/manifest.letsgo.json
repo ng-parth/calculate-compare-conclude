@@ -1,0 +1,26 @@
+{
+  "short_name": "Lets Go",
+  "name": "Lets Goo",
+  "icons": [
+    {
+      "src": "favicon.letsgo.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "assets/logos/letsgo/letsgo-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/logos/letsgo/letsgo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "scope": "/lets-go/",
+  "display": "standalone",
+  "theme_color": "#FF7700",
+  "background_color": "#CC1413"
+}

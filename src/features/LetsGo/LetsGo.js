@@ -19,6 +19,10 @@ import {
 import RouteWidget from "../../components/RouteWidget";
 import {PlusOutlined, SwapOutlined} from "@ant-design/icons";
 import './lets-go.scss';
+import * as swLetsGo from "../../sw/swLetsGo";
+import swConfig from "../../sw/swConfig";
+import * as serviceWorker from "../../serviceWorker";
+
 
 const LetsGo = props => {
     const [routes, setRoutes] = useState(null);
@@ -54,9 +58,24 @@ const LetsGo = props => {
             console.log('Err @getRouteTagsApi: ', err)
         })
     }
+    const updateManifestFile = () => {
+        const url = `${process.env.PUBLIC_URL}/manifest.letsgo.json`;
+        var link = document.createElement('link');
+        link.href = url;
+        link.rel = 'manifest';
+        document.getElementsByTagName('head')[0].appendChild(link);
+
+        // <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
+        const faviconEl = document.querySelector('link[rel="icon"]');
+        faviconEl.href = `${process.env.PUBLIC_URL}/favicon.letsgo.ico`;
+    }
     useEffect(() => {
+        updateManifestFile()
         getRoutes();
         getRouteTags();
+        setTimeout(() => {
+            serviceWorker.register(swConfig);
+        }, 500)
     }, []);
     useEffect(() => {
         if (tagFilter && tagFilter !== 'ADD') {
