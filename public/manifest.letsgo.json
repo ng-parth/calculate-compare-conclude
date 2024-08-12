@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "assets/logos/letsgo/letsgo_orange_1.png",
+      "src": "assets/logos/letsgo/letsgo_orange_2.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "assets/logos/letsgo/letsgo_orange_1.png",
+      "src": "assets/logos/letsgo/letsgo_orange_2.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -21,6 +21,6 @@
   "scope": "/",
   "start_url": "/lets-go/",
   "display": "standalone",
-  "theme_color": "#FF7700",
-  "background_color": "#FF7700"
+  "theme_color": "#FFF",
+  "background_color": "#FFF"
 }
