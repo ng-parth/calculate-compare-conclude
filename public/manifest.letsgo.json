@@ -1,6 +1,6 @@
 {
-  "short_name": "Lets Go",
-  "name": "Lets Go",
+  "short_name": "GoGoGo!",
+  "name": "GoGoGo!",
   "icons": [
     {
       "src": "favicon.letsgo.ico",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "assets/logos/letsgo/letsgo-192.png",
+      "src": "assets/logos/letsgo/letsgo_orange_1.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "assets/logos/letsgo/letsgo-512.png",
+      "src": "assets/logos/letsgo/letsgo_orange_1.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -22,5 +22,5 @@
   "start_url": "/lets-go/",
   "display": "standalone",
   "theme_color": "#FF7700",
-  "background_color": "#CC1413"
+  "background_color": "#FF7700"
 }
