@@ -49,6 +49,7 @@ const RouteInfo = props => {
         if (formValues.id) api = putRouteApi;
         api(formValues).then(({data}) => {
             notification.success({ message: isNew ? 'New Route Added! :)' : 'Route details updated! :)'});
+            window.history.go(-1);
         }).catch(err => {
             console.log('Err @submitForm: ', err);
             notification.error({ message: 'Fail to add new route :\'('});
@@ -94,10 +95,11 @@ const RouteInfo = props => {
         const routeDetail = searchResults.find(r => r.routeId === selectedRoute);
         const apiUrlPrefix = 'https://chalo.com/app/api/vasudha/track/route-live-info/mumbai/';
         const webUrlPrefix = 'https://chalo.com/app/live-tracking/route-map/';
+        const oldFormValues = form?.getFieldsValue() || {};
         const formValue = {
             busNo: routeDetail.routeName,
-            routeName: `${stopDetails.stopName} => ${routeDetail.lastStopName}`,
-            stopName: stopDetails.stopName,
+            routeName: oldFormValues.routeName || `${stopDetails.stopName} => ${routeDetail.lastStopName}`,
+            stopName: oldFormValues.stopName ||  stopDetails.stopName,
             //apiUrl: https://chalo.com/app/api/vasudha/track/route-live-info/mumbai/vTAVNJss
             apiUrl: `${apiUrlPrefix}${routeDetail.routeId}`,
             defaultStopId: stopDetails.stopId,
