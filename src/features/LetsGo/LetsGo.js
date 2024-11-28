@@ -7,7 +7,7 @@ import {
 } from "../../redux/services/LetsGoService";
 import {
     Button,
-    Card,
+    Card, Cascader,
     Col,
     Input,
     notification,
@@ -35,6 +35,8 @@ const LetsGo = props => {
     const colSpan = {xs: 12, sm: 12, md: 8}
     const masterRouteRef = useRef(null);
     const [syncAllTime, setSyncAllTime] = useState(null);
+    const [stops, setStops] = useState(null);
+    const tagSeperator = ' => ';
     const getRoutes = () => {
         getRoutesApi().then(({data}) => {
             const sortedData = data.data.map(r => ({ ...r, title: `${r.busNo} @ ${r.stopName}`})).sort((a, b) => {
@@ -56,7 +58,25 @@ const LetsGo = props => {
     }
     const getRouteTags = () => {
         getRouteTagsApi().then(({data}) => {
-            setRouteTags(data.data);
+            const srcStops = {};
+            const tags = data.data.map(tag => {
+                const [src, dest] = tag.tagName.split(tagSeperator);
+                if (!srcStops[src]) srcStops[src] = {value: src, label: src, children: []}
+                srcStops[src].children.push({id: tag.id, label: dest, value: tag.tagName});
+                return {...tag, src, dest};
+            })
+            const stops = [];
+            Object.keys(srcStops).forEach(key => {
+                srcStops[key].children = srcStops[key].children.sort((a, b) => a.label.toLowerCase() > b.label.toLowerCase());
+                stops.push(srcStops[key]);
+            })
+            stops.push({value: 'ALL', label: 'ALL'});
+            stops.push({value: null, label: 'Empty'});
+            stops.push({value: 'ADD', label: 'ADD NEW'});
+            // console.log('OG stops: ', srcStops);
+            // console.log('Casader stops: ', stops);
+            setRouteTags(tags);
+            setStops(stops);
         }).catch(err => {
             console.log('Err @getRouteTagsApi: ', err)
         })
@@ -115,17 +135,23 @@ const LetsGo = props => {
         <Typography.Title level={3}>Routes</Typography.Title>
         <Spin spinning={loading}>
             {routeTags?.length > 0 && <Row>
+                {/*<Col span={24}>*/}
+                {/*    <Radio.Group value={tagFilter} onChange={e => {*/}
+                {/*        const tag = e.target.value;*/}
+                {/*        if (tag === 'ALL') setSyncAllTime(null);*/}
+                {/*        setTagFilter(tag);*/}
+
+                {/*    }}>*/}
+                {/*        <Radio.Button value="ALL" size="small">ALL</Radio.Button>*/}
+                {/*        {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}*/}
+                {/*        <Radio.Button value={null}>Empty Tags</Radio.Button>*/}
+                {/*        <Radio.Button value="ADD"><PlusOutlined/> Add</Radio.Button>*/}
+                {/*    </Radio.Group>*/}
+                {/*</Col>*/}
                 <Col span={24}>
-                    <Radio.Group value={tagFilter} onChange={e => {
-                        const tag = e.target.value;
-                        if (tag === 'ALL') setSyncAllTime(null);
-                        setTagFilter(tag);
-                    }}>
-                        <Radio.Button value="ALL">ALL</Radio.Button>
-                        {routeTags?.map(t => <Radio.Button value={t.tagName} key={t.id}>{t.tagName}</Radio.Button>)}
-                        <Radio.Button value={null}>Empty Tags</Radio.Button>
-                        <Radio.Button value="ADD"><PlusOutlined/> Add</Radio.Button>
-                    </Radio.Group>
+                    <Cascader options={stops} onChange={opt => {
+                        if (opt.length === 2) setTagFilter(opt[1]); else setTagFilter(opt[0]);
+                    }} />
                 </Col>
             </Row>}
             {tagFilter === 'ADD' && <> <br/> <Row>
