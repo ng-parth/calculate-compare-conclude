@@ -97,7 +97,7 @@ const RouteInfo = props => {
         const routeDetail = searchResults.find(r => r.routeId === selectedRoute);
         const apiUrlPrefix = 'https://chalo.com/app/api/vasudha/track/route-live-info/mumbai/';
         const webUrlPrefix = 'https://chalo.com/app/live-tracking/route-map/';
-        const oldFormValues = routeData;
+        const oldFormValues = routeData || {};
         const formValue = {
             busNo: routeDetail.routeName,
             routeName: oldFormValues.routeName || `${stopDetails.stopName} => ${routeDetail.lastStopName}`,
