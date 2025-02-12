@@ -1,3 +1,10 @@
+.letsgo {
+  &--logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
 .bus-route-widget {
   .ant-card-body {
     padding: 12px !important;

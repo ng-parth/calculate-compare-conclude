@@ -17,6 +17,7 @@ const RouteInfo = props => {
     const [selectedRoute, setSelectedRoute] = useState(null);
     const [stopDetails, setStopDetails] = useState(null);
     const [routeStops, setRouteStops] = useState(null);
+    const [routeData, setRouteData] = useState(null);
     const formLayout = {labelCol: {span: 8}, wrapperCol: {span: 16}}
     const routeId = props.match?.params?.routeId;
     const isNew = routeId === 'new';
@@ -27,6 +28,7 @@ const RouteInfo = props => {
             const routeForId = data.data[0] || {}
             setIsManual(!!routeForId.id);
             form.setFieldsValue(routeForId);
+            setRouteData(routeForId);
             setLoading(false);
         }).catch(err => {
             console.log('Err @getRouteApi: ', err)
@@ -95,7 +97,7 @@ const RouteInfo = props => {
         const routeDetail = searchResults.find(r => r.routeId === selectedRoute);
         const apiUrlPrefix = 'https://chalo.com/app/api/vasudha/track/route-live-info/mumbai/';
         const webUrlPrefix = 'https://chalo.com/app/live-tracking/route-map/';
-        const oldFormValues = form?.getFieldsValue() || {};
+        const oldFormValues = routeData;
         const formValue = {
             busNo: routeDetail.routeName,
             routeName: oldFormValues.routeName || `${stopDetails.stopName} => ${routeDetail.lastStopName}`,

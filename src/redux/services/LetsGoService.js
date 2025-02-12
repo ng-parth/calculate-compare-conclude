@@ -55,3 +55,8 @@ export const validateAndSortBuses = buses => {
     return [ ...validEta.sort((a, b) => a.estimatedEta - b.estimatedEta), ...invalidEta]
 }
 
+export const SHORTCUT_ROUTETAGS = [
+    {id: "3NBtS", tagName: "Century => RGGC", nickName: "Home => School"},
+    {id: "HJDEH", tagName: "RGGC => Century", nickName: "School => Home"},
+];
+

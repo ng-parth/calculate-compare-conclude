@@ -25,6 +25,7 @@ import * as serviceWorker from "../../serviceWorker";
 import logo1 from "../../assets/logos/letsgo/letsgo-144.png";
 import logo2 from "../../assets/logos/letsgo/LetsGoo.png";
 import logoOrange from "../../assets/logos/letsgo/letsgoo_orange.png";
+import Shortcuts from "./Shortcuts";
 
 
 const LetsGo = props => {
@@ -130,8 +131,11 @@ const LetsGo = props => {
                 setLoading(true);
             });
     }
-    return <div>
-        <img src={logoOrange} className="logo--letsgo" alt="Logo"/>
+    return <div className="letsgo">
+        <div className="letsgo--logo-container">
+            <img src={logoOrange} className="logo--letsgo" alt="Logo"/>
+            <Shortcuts loading={loading} selectedTag={tagFilter} onTagChange={setTagFilter} />
+        </div>
         <Typography.Title level={3}>Routes</Typography.Title>
         <Spin spinning={loading}>
             {routeTags?.length > 0 && <Row>
@@ -149,8 +153,8 @@ const LetsGo = props => {
                 {/*    </Radio.Group>*/}
                 {/*</Col>*/}
                 <Col span={24}>
-                    <Cascader options={stops} onChange={opt => {
-                        if (opt.length === 2) setTagFilter(opt[1]); else setTagFilter(opt[0]);
+                    <Cascader options={stops} value={tagFilter} onChange={opt => {
+                        if (!opt?.length) setTagFilter('ALL'); else if (opt.length === 2) setTagFilter(opt[1]); else setTagFilter(opt[0]);
                     }} />
                 </Col>
             </Row>}
