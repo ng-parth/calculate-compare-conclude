@@ -25,7 +25,7 @@ const getAppConfig = appName => {
       config = {
         manifest: 'manifest.json',
         favicon: 'assets/logos/favicon.ico',
-        title: 'Compare & Conclude',
+        title: 'Calculate, Compare & Conclude',
       };
   }
   return config;
