@@ -19,13 +19,12 @@ import {
 import RouteWidget from "../../components/RouteWidget";
 import {PlusOutlined, SwapOutlined} from "@ant-design/icons";
 import './lets-go.scss';
-import * as swLetsGo from "../../sw/swLetsGo";
 import swConfig from "../../sw/swConfig";
-import * as serviceWorker from "../../serviceWorker";
 import logo1 from "../../assets/logos/letsgo/letsgo-144.png";
 import logo2 from "../../assets/logos/letsgo/LetsGoo.png";
 import logoOrange from "../../assets/logos/letsgo/letsgoo_orange.png";
 import Shortcuts from "./Shortcuts";
+import {APP_NAMES, updateManifestFile} from "../../redux/ServiceWorkerUtil";
 
 
 const LetsGo = props => {
@@ -82,27 +81,24 @@ const LetsGo = props => {
             console.log('Err @getRouteTagsApi: ', err)
         })
     }
-    const updateManifestFile = () => {
-        const url = `${process.env.PUBLIC_URL}/manifest.letsgo.json`;
-        var link = document.createElement('link');
-        link.href = url;
-        link.rel = 'manifest';
-        document.getElementsByTagName('head')[0].appendChild(link);
-
-        // <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
-        const faviconEl = document.querySelector('link[rel="icon"]');
-        faviconEl.href = `${process.env.PUBLIC_URL}/favicon.letsgo.ico`;
-
-        const title = document.querySelector('title');
-        title.innerText = 'Lets Go!';
-    }
+    // const updateManifestFile = () => {
+    //     const url = `${process.env.PUBLIC_URL}/manifest.letsgo.json`;
+    //     var link = document.createElement('link');
+    //     link.href = url;
+    //     link.rel = 'manifest';
+    //     document.getElementsByTagName('head')[0].appendChild(link);
+    //
+    //     // <link rel="icon" href="%PUBLIC_URL%/favicon.ico"/>
+    //     const faviconEl = document.querySelector('link[rel="icon"]');
+    //     faviconEl.href = `${process.env.PUBLIC_URL}/favicon.letsgo.ico`;
+    //
+    //     const title = document.querySelector('title');
+    //     title.innerText = 'Lets Go!';
+    // }
     useEffect(() => {
-        updateManifestFile()
+        updateManifestFile(APP_NAMES.LETS_GO, swConfig)
         getRoutes();
         getRouteTags();
-        setTimeout(() => {
-            serviceWorker.register(swConfig);
-        }, 500)
     }, []);
     useEffect(() => {
         if (tagFilter && tagFilter !== 'ADD') {
