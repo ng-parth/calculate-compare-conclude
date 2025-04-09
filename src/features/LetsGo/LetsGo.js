@@ -19,7 +19,6 @@ import {
 import RouteWidget from "../../components/RouteWidget";
 import {PlusOutlined, SwapOutlined} from "@ant-design/icons";
 import './lets-go.scss';
-import swConfig from "../../sw/swConfig";
 import logo1 from "../../assets/logos/letsgo/letsgo-144.png";
 import logo2 from "../../assets/logos/letsgo/LetsGoo.png";
 import logoOrange from "../../assets/logos/letsgo/letsgoo_orange.png";
@@ -96,7 +95,7 @@ const LetsGo = props => {
     //     title.innerText = 'Lets Go!';
     // }
     useEffect(() => {
-        updateManifestFile(APP_NAMES.LETS_GO, swConfig)
+        updateManifestFile(APP_NAMES.LETS_GO.name)
         getRoutes();
         getRouteTags();
     }, []);

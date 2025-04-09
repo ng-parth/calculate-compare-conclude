@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import {Typography, Form, Input, Button} from 'antd';
 import {Link} from "react-router-dom";
 import {APP_NAMES, updateManifestFile} from "../../redux/ServiceWorkerUtil";
-import waSwConfig from "../../sw/wa/swConfig";
 
 const WaMe = props => {
     const [link,setLink] = React.useState('');
@@ -10,7 +9,7 @@ const WaMe = props => {
       setLink(`https://wa.me/91${phoneNo}`);
     };
     useEffect(() => {
-      updateManifestFile(APP_NAMES.WA_ME, waSwConfig);
+      updateManifestFile(APP_NAMES.WA_ME.name);
     }, []);
   return <div>
     <Typography.Title level={2}>WhatsApp Me</Typography.Title>

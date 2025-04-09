@@ -1,5 +1,5 @@
 const swConfig = {
-    swRelativeUrl: '/sw/swLetsGo.js',
+    swRelativeUrl: '/sw/letsgo/swLetsGo.js',
     onUpdate: registration => {
         const waitingServiceWorker = registration.waiting;
         if (waitingServiceWorker) {
