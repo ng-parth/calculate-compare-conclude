@@ -56,7 +56,11 @@ export const validateAndSortBuses = buses => {
 }
 
 export const SHORTCUT_ROUTETAGS = [
-    {id: "3NBtS", tagName: "Century => RGGC", nickName: "Home => School"},
-    {id: "HJDEH", tagName: "RGGC => Century", nickName: "School => Home"},
+    // {id: "3NBtS", tagName: "Century => RGGC", nickName: "Home => School"},
+    // {id: "HJDEH", tagName: "RGGC => Century", nickName: "School => Home"},
+    { id: "eazGg", tagName: "Century => Kalanagar", nickName: "Home => Kalanagar" },
+    { id: "8jdfWs", tagName: "Kalanagar => WeW", nickName: "Kalanagar => WeW" },
+    { id: "vkU8p", tagName: "Kalanagar => RGGC", nickName: "Kalanagar => RGCC" },
+    { id: "sd8Ip", tagName: "BharatNagar => Century", nickName: "Bharatnagar => RGCC" },
 ];
 
